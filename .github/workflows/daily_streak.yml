@@ -1,0 +1,28 @@
+name: Daily Auto Commit Bot
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # বাংলাদেশ সময় প্রতিদিন সকাল ৯টায় রান করবে (3 AM UTC)
+  workflow_dispatch: # চাইলে ম্যানুয়ালিও রান করা যাবে
+
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Update Log File
+        run: |
+          echo "Automated commit on $(date)" >> update.log
+
+      - name: Commit and Push
+        run: |
+          git config --global user.email "topu7252@gmail.com"
+          git config --global user.name "zaman-topu"
+          git add update.log
+          git commit -m "Auto commit to maintain streak 🔥"
+          git push
